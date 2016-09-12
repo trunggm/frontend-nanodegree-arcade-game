@@ -45,8 +45,11 @@ var Engine = (function(global) {
         /* Call our update/render functions, pass along the time delta to
          * our update function since it may be used for smooth animation.
          */
-        update(dt);
-        render();
+         if(!gamePause) {
+            update(dt);
+         }
+
+         render();
 
         /* Set our lastTime variable which is used to determine the time delta
          * for the next time this function is called.
@@ -81,6 +84,7 @@ var Engine = (function(global) {
     function update(dt) {
         updateEntities(dt);
         checkCollisions();
+        checkCollectStar();
     }
 
     /* When update coordinate of all characters */
@@ -92,6 +96,16 @@ var Engine = (function(global) {
           (allEnemies[i].y + 35) >= (player.y)) {
           player.reset();
         }
+      }
+    }
+
+    // Update when user collect start
+    checkCollectStar = function () {
+      if (player.y == 68 && (player.x - 50) < star.x && (player.x + 50) > star.x) {
+        star.reset();
+        player.reset();
+        playerScore += 1;
+        document.getElementById("score").innerHTML = playerScore;
       }
     }
 
@@ -150,7 +164,7 @@ var Engine = (function(global) {
 
         // render selector
         selector.render();
-        
+
         renderEntities();
     }
 
@@ -162,6 +176,7 @@ var Engine = (function(global) {
         /* Loop through all of the objects within the allEnemies array and call
          * the render function you have defined.
          */
+        star.render();
         allEnemies.forEach(function(enemy) {
             enemy.render();
         });
@@ -177,6 +192,14 @@ var Engine = (function(global) {
      */
     function reset() {
         // noop
+        console.log('reset');
+        playerScore = 0;
+
+        // reset character
+        allEnemies.forEach(function(enemy) {
+            enemy.reset();
+        });
+        player.reset();
     }
 
     /* Go ahead and load all of the images we know we're going to need to
@@ -207,3 +230,8 @@ var Engine = (function(global) {
      */
     global.ctx = ctx;
 })(this);
+
+// reload page
+document.getElementById('reset').onClick = function () {
+  window.location.reload();
+}
