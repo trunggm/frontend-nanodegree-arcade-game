@@ -97,7 +97,7 @@ var Engine = (function(global) {
           player.reset();
         }
       }
-    }
+    };
 
     // Update when user collect start
     checkCollectStar = function () {
@@ -107,7 +107,7 @@ var Engine = (function(global) {
         playerScore += 1;
         document.getElementById("score").innerHTML = playerScore;
       }
-    }
+    };
 
     /* This is called by the update function and loops through all of the
      * objects within your allEnemies array as defined in app.js and calls
@@ -234,4 +234,4 @@ var Engine = (function(global) {
 // reload page
 document.getElementById('reset').onClick = function () {
   window.location.reload();
-}
+};

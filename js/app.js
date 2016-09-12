@@ -9,7 +9,7 @@ var playerImages = [
   'images/char-cat-girl.png',
   'images/char-horn-girl.png',
   'images/char-pink-girl.png',
-  'images/char-princess-girl.png'
+  'images/char-princess-girl.png',
 ];
 // initial playerScore
 var playerScore = 0;
@@ -23,13 +23,13 @@ function randomInteger(minimum, maximum) {
 function getRandomStarPosX() {
   var pos = randomInteger(0, 4);
   return starPosX[pos];
-};
+}
 
 // get random lane of enemy
 function getRandomEnemyPostY() {
   var pos = randomInteger(0, 2);
   return enemyPosY[pos];
-};
+}
 
 // With a playerscore speed bug increase by 10
 function getDifficulty() {
@@ -69,7 +69,7 @@ Enemy.prototype.update = function(dt) {
 
     // when enemy bug reaches end of canvas call reset()
     if (this.x > 505) {
-      this.reset()
+      this.reset();
     }
 };
 
@@ -82,7 +82,7 @@ Enemy.prototype.render = function() {
 Enemy.prototype.reset = function () {
   this.x = -200;
   this.y = getRandomEnemyPostY();
-}
+};
 
 // Now write your own player class
 // This class requires an update(), render() and
@@ -95,7 +95,7 @@ var startY = 400;
 var Player = function () {
   this.x = startX;
   this.y = startY;
-  this.sprite = 'images/char-boy.png'
+  this.sprite = 'images/char-boy.png';
 };
 
 // Player update coordinate
@@ -125,30 +125,30 @@ Player.prototype.render = function () {
 Player.prototype.reset = function () {
   this.x = startX;
   this.y = startY;
-}
+};
 
 // Selector class
 var Selector = function () {
   this.x = 201;
   this.y = 376;
-  this.sprite = 'images/Selector.png'
+  this.sprite = 'images/Selector.png';
 };
 
 // Render Selector
 Selector.prototype.render = function () {
   ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
-}
+};
 
 // Star class, when player collect a start, score increase by 1
 var Star = function () {
   this.x = getRandomStarPosX();
   this.y = 68;
-  this.sprite = 'images/Star.png'
+  this.sprite = 'images/Star.png';
 };
 
 Star.prototype.reset = function () {
   this.x = getRandomStarPosX();
-}
+};
 
 Star.prototype.render = function () {
   ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
@@ -176,7 +176,7 @@ var player = new Player();
 
 // This listens for key presses and sends the keys to your
 // Player.handleInput() method. You don't need to modify this.
-document.addEventListener('keyup', function(e) {
+document.addEventListener('keyup', function (e) {
     var allowedKeys = {
         32: 'play/pause',
         37: 'left',
@@ -193,7 +193,7 @@ document.addEventListener('keyup', function(e) {
 });
 
 // switch statement takes the key event listener and adjusts x or y accordingly
-Player.prototype.handleInput = function(key) {
+Player.prototype.handleInput = function (key) {
   if (key=='play/pause') {
     gamePause=!gamePause;
   }
