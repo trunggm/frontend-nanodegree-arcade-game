@@ -80,7 +80,19 @@ var Engine = (function(global) {
      */
     function update(dt) {
         updateEntities(dt);
-        // checkCollisions();
+        checkCollisions();
+    }
+
+    /* When update coordinate of all characters */
+    checkCollisions = function () {
+      for (var i = 0; i < allEnemies.length; i++) {
+        if ((allEnemies[i].x) <= player.x + 65 &&
+          (allEnemies[i].x + 70) >= (player.x) &&
+          (allEnemies[i].y) <= player.y + 35 &&
+          (allEnemies[i].y + 35) >= (player.y)) {
+          player.reset();
+        }
+      }
     }
 
     /* This is called by the update function and loops through all of the
@@ -136,6 +148,9 @@ var Engine = (function(global) {
             }
         }
 
+        // render selector
+        selector.render();
+        
         renderEntities();
     }
 
@@ -152,6 +167,8 @@ var Engine = (function(global) {
         });
 
         player.render();
+
+
     }
 
     /* This function does nothing but it could have been a good place to
@@ -171,7 +188,16 @@ var Engine = (function(global) {
         'images/water-block.png',
         'images/grass-block.png',
         'images/enemy-bug.png',
-        'images/char-boy.png'
+        'images/char-boy.png',
+        'images/char-cat-girl.png',
+        'images/char-horn-girl.png',
+        'images/char-pink-girl.png',
+        'images/char-princess-girl.png',
+        'images/Selector.png',
+        'images/Star.png',
+        'images/Gem Blue.png',
+        'images/Gem Green.png',
+        'images/Gem Orange.png'
     ]);
     Resources.onReady(init);
 
