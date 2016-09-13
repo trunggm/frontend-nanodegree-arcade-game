@@ -4,41 +4,11 @@ var gamePause = true;
 // Star position X and Y
 var starPosX = [-2, 99, 200, 301, 402];
 var enemyPosY = [63, 145, 227];
-var playerImages = [
-  'images/char-boy.png',
-  'images/char-cat-girl.png',
-  'images/char-horn-girl.png',
-  'images/char-pink-girl.png',
-  'images/char-princess-girl.png',
-];
 
 
 // random a integer
 function randomInteger(minimum, maximum) {
   return Math.floor(Math.random()*(maximum - minimum + 1) + minimum);
-}
-
-// get random pos of star
-function getRandomStarPosX() {
-  var pos = randomInteger(0, 4);
-  return starPosX[pos];
-}
-
-// get random lane of enemy
-function getRandomEnemyPostY() {
-  var pos = randomInteger(0, 2);
-  return enemyPosY[pos];
-}
-
-// With a playerscore speed bug increase by 10
-function getDifficulty() {
-  var step = 10;
-  return playerScore * step;
-}
-
-// get random speed of bug
-function getRandomSpeed() {
-  return randomInteger(60, 180);
 }
 
 // Enemies our player must avoid
@@ -75,7 +45,7 @@ Enemy.prototype.update = function(dt) {
 // random posY of enemy
 Enemy.prototype.getRandomEnemyPostY = function () {
   var pos = randomInteger(0, 2);
-  this.y = starPosX[pos];
+  this.y = enemyPosY[pos];
 };
 
 // get random speed of enemy
@@ -96,7 +66,7 @@ Enemy.prototype.render = function() {
 // Reset enemy-bug when it reaches end of canvas, move it to back canvas
 Enemy.prototype.reset = function () {
   this.x = -200;
-  this.y = getRandomEnemyPostY();
+  this.getRandomEnemyPostY();
 };
 
 // Now write your own player class
@@ -105,13 +75,21 @@ Enemy.prototype.reset = function () {
 
 var Player = function () {
   // Set player coordinate when starting
+  this.playerImages = [
+    'images/char-boy.png',
+    'images/char-cat-girl.png',
+    'images/char-horn-girl.png',
+    'images/char-pink-girl.png',
+    'images/char-princess-girl.png',
+  ];
+
   this.startX = 200;
   this.startY = 400;
   // initial playerScore
   this.playerScore = 0;
   this.x = this.startX;
   this.y = this.startY;
-  this.sprite = 'images/char-boy.png';
+  this.sprite = this.playerImages[randomInteger(0, 4)];
 };
 
 // Player update coordinate
@@ -169,7 +147,7 @@ Star.prototype.getRandomStarPosX = function () {
 };
 
 Star.prototype.reset = function () {
-  this.x = getRandomStarPosX();
+  this.getRandomStarPosX();
 };
 
 Star.prototype.render = function () {

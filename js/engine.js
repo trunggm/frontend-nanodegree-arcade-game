@@ -104,8 +104,8 @@ var Engine = (function(global) {
       if (player.y == 68 && (player.x - 50) < star.x && (player.x + 50) > star.x) {
         star.reset();
         player.reset();
-        playerScore += 1;
-        document.getElementById("score").innerHTML = playerScore;
+        player.playerScore += 1;
+        document.getElementById("score").innerHTML = player.playerScore;
       }
     };
 
@@ -193,7 +193,7 @@ var Engine = (function(global) {
     function reset() {
         // noop
         console.log('reset');
-        playerScore = 0;
+        player.playerScore = 0;
 
         // reset character
         allEnemies.forEach(function(enemy) {
