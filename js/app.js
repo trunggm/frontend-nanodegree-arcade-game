@@ -11,8 +11,7 @@ var playerImages = [
   'images/char-pink-girl.png',
   'images/char-princess-girl.png',
 ];
-// initial playerScore
-var playerScore = 0;
+
 
 // random a integer
 function randomInteger(minimum, maximum) {
@@ -43,7 +42,7 @@ function getRandomSpeed() {
 }
 
 // Enemies our player must avoid
-var Enemy = function(x, y, speed) {
+var Enemy = function() {
     // Variables applied to each of our instances go here,
     // we've provided one for you to get started
 
@@ -52,11 +51,11 @@ var Enemy = function(x, y, speed) {
     this.sprite = 'images/enemy-bug.png';
 
     // coordinate of enemy
-    this.x = x;
-    this.y = y;
+    this.x = -100;
+    this.getRandomEnemyPostY();
 
     // speed
-    this.speed = speed;
+    this.getRandomSpeed();
 };
 
 // Update the enemy's position, required method for game
@@ -65,12 +64,28 @@ Enemy.prototype.update = function(dt) {
     // You should multiply any movement by the dt parameter
     // which will ensure the game runs at the same speed for
     // all computers.
-    this.x += (this.speed + getDifficulty()) * dt;
+    this.x += (this.speed + this.getDifficulty(player)) * dt;
 
     // when enemy bug reaches end of canvas call reset()
     if (this.x > 505) {
       this.reset();
     }
+};
+
+// random posY of enemy
+Enemy.prototype.getRandomEnemyPostY = function () {
+  var pos = randomInteger(0, 2);
+  this.y = starPosX[pos];
+};
+
+// get random speed of enemy
+Enemy.prototype.getRandomSpeed = function () {
+  this.speed = randomInteger(60, 180);
+};
+
+Enemy.prototype.getDifficulty = function (player) {
+  var step = 15;
+  return player.playerScore * 15;
 };
 
 // Draw the enemy on the screen, required method for game
@@ -88,13 +103,14 @@ Enemy.prototype.reset = function () {
 // This class requires an update(), render() and
 // a handleInput() method.
 
-// Set player coordinate when starting
-var startX = 200;
-var startY = 400;
-
 var Player = function () {
-  this.x = startX;
-  this.y = startY;
+  // Set player coordinate when starting
+  this.startX = 200;
+  this.startY = 400;
+  // initial playerScore
+  this.playerScore = 0;
+  this.x = this.startX;
+  this.y = this.startY;
   this.sprite = 'images/char-boy.png';
 };
 
@@ -123,8 +139,8 @@ Player.prototype.render = function () {
 
 // Reset coordinate player when has collision
 Player.prototype.reset = function () {
-  this.x = startX;
-  this.y = startY;
+  this.x = this.startX;
+  this.y = this.startY;
 };
 
 // Selector class
@@ -141,9 +157,15 @@ Selector.prototype.render = function () {
 
 // Star class, when player collect a start, score increase by 1
 var Star = function () {
-  this.x = getRandomStarPosX();
+  this.getRandomStarPosX();
   this.y = 68;
   this.sprite = 'images/Star.png';
+};
+
+Star.prototype.getRandomStarPosX = function () {
+  var pos = randomInteger(0, 4);
+  console.log(starPosX[pos]);
+  this.x = starPosX[pos];
 };
 
 Star.prototype.reset = function () {
@@ -165,10 +187,7 @@ var allEnemies = [];
 
 // initially enemys and push them to array allEnemies
 for (var i = 0; i < 3; i++) {
-  var enemyY = getRandomEnemyPostY();
-  var enemyX = -100;
-  var enemySpeed = getRandomSpeed();
-  allEnemies.push(new Enemy(enemyX, enemyY, enemySpeed));
+  allEnemies.push(new Enemy());
 }
 
 // initially new player
